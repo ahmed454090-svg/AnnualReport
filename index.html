@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTCF | Family Trust Dashboard 2026</title>
+    
+    <!-- Google Fonts: Inter & Noto Sans Urdu -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        urdu: ['Noto Sans Urdu', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dark-glass {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .shimmer-box {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen pb-12 antialiased selection:bg-emerald-500 selection:text-slate-950">
+
+    <!-- Header Section (Rich Emerald & Gold Ramzan Gradient Header) -->
+    <header class="bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950 pt-7 pb-10 px-4 rounded-b-[2.5rem] shadow-2xl border-b border-emerald-500/20 text-white relative">
+        <div class="max-w-md mx-auto relative z-10 flex flex-col items-center text-center">
+            
+            <!-- Top Controls Row -->
+            <div class="w-full flex items-center justify-between mb-4">
+                <button onclick="toggleModal('ramzan-modal', true)" class="flex items-center gap-1.5 bg-emerald-900/50 hover:bg-emerald-800/60 border border-amber-400/40 text-amber-300 px-3.5 py-1.5 rounded-full backdrop-blur-md transition-all text-xs font-semibold active:scale-95 shadow-sm">
+                    <span>🌙</span>
+                    <span>Ramzan Vision 2027</span>
+                </button>
+                <span class="text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-md bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 uppercase">FTCF LIVE</span>
+            </div>
+
+            <h1 class="text-xl font-extrabold tracking-tight flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-white via-emerald-100 to-amber-200">
+                Family Trust & Care Foundation
+            </h1>
+            <p class="text-xs text-emerald-200/80 font-urdu mt-0.5">مستقبل کی بہتری اور باہمی تعاون کا شفاف ڈیش بورڈ</p>
+
+            <div class="mt-4 inline-flex items-center px-3.5 py-1 rounded-full bg-emerald-900/60 border border-amber-400/30 text-amber-300 text-[11px] font-mono tracking-wider shadow-inner">
+                FISCAL YEAR 2026 - 2027
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-md mx-auto px-4 -mt-5 space-y-4 relative z-20">
+
+        <!-- Net Reserve Balance Card -->
+        <div id="savings-box" class="dark-glass p-5 rounded-3xl shadow-xl border border-emerald-500/30 transition-all duration-300">
+            <div class="flex justify-between items-start mb-1">
+                <div>
+                    <p class="text-[11px] font-bold tracking-wider text-emerald-400/90 uppercase">Net Reserve Balance</p>
+                    <p class="text-xs text-slate-400 font-urdu">کل دستیاب فنڈز</p>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-950 text-emerald-400 border border-emerald-500/40">
+                    Active
+                </span>
+            </div>
+            
+            <h2 id="net-savings" class="text-3xl font-black tracking-tight text-white my-1">
+                <span class="inline-block w-36 h-8 shimmer-box rounded-lg"></span>
+            </h2>
+
+            <!-- Progress Bar -->
+            <div class="mt-4 pt-3 border-t border-slate-800">
+                <div class="flex justify-between text-[11px] font-medium text-slate-400 mb-1.5">
+                    <span>Expense Ratio</span>
+                    <span id="expense-percentage" class="font-bold text-emerald-300">0%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div id="expense-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-amber-400 transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Summary Stats Grid -->
+        <div class="grid grid-cols-2 gap-3">
+            <!-- Total Income -->
+            <div class="dark-glass p-4 rounded-2xl shadow-md border border-slate-800 border-l-4 border-l-emerald-500">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Income</span>
+                    <span class="text-emerald-400 font-bold text-xs bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/30">↓</span>
+                </div>
+                <h3 id="total-balance" class="text-base font-extrabold text-emerald-300">
+                    <span class="inline-block w-20 h-5 shimmer-box rounded"></span>
+                </h3>
+                <p class="text-[10px] text-slate-400 font-urdu mt-0.5">کل آمدن</p>
+            </div>
+
+            <!-- Total Expenses -->
+            <div class="dark-glass p-4 rounded-2xl shadow-md border border-slate-800 border-l-4 border-l-rose-500">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Outflow</span>
+                    <span class="text-rose-400 font-bold text-xs bg-rose-950/80 px-1.5 py-0.5 rounded border border-rose-500/30">↑</span>
+                </div>
+                <h3 id="total-expenses" class="text-base font-extrabold text-rose-300">
+                    <span class="inline-block w-20 h-5 shimmer-box rounded"></span>
+                </h3>
+                <p class="text-[10px] text-slate-400 font-urdu mt-0.5">کل اخراجات</p>
+            </div>
+        </div>
+
+        <!-- Monthly Overview Section -->
+        <div class="pt-2">
+            <div class="flex items-center justify-between mb-3 px-1">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-200 tracking-wide">Monthly Overview</h3>
+                    <p class="text-[10px] text-slate-400 font-urdu">ماہانہ وصولی و اخراجات کا تفصیلی ریکارڈ</p>
+                </div>
+                <span class="text-[10px] font-bold text-amber-300 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-amber-400/30 font-mono">2026 LOG</span>
+            </div>
+
+            <div id="monthly-list" class="space-y-2.5">
+                <!-- Skeleton Shimmers -->
+                <div class="dark-glass p-4 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div class="w-24 h-4 shimmer-box rounded"></div>
+                    <div class="w-16 h-4 shimmer-box rounded"></div>
+                </div>
+                <div class="dark-glass p-4 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div class="w-24 h-4 shimmer-box rounded"></div>
+                    <div class="w-16 h-4 shimmer-box rounded"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Ramzan Modal -->
+    <div id="ramzan-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-3xl p-6 w-full max-w-sm border border-emerald-500/30 shadow-2xl">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-800">
+                <div>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">🌙</span> Ramzan Vision 2027
+                    </h3>
+                    <p class="text-[11px] text-emerald-400 font-urdu">رمضان فنڈ اور منصوبہ بندی کی تفصیلات</p>
+                </div>
+                <button onclick="toggleModal('ramzan-modal', false)" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+            </div>
+            
+            <div id="ramzan-content" class="space-y-2.5 max-h-72 overflow-y-auto pr-1 text-xs">
+                <div class="p-4 text-center">
+                    <div class="w-full h-8 shimmer-box rounded-lg mb-2"></div>
+                    <div class="w-full h-8 shimmer-box rounded-lg"></div>
+                </div>
+            </div>
+
+            <button onclick="toggleModal('ramzan-modal', false)" class="mt-5 w-full bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-semibold py-2.5 rounded-xl text-xs transition-all shadow-lg active:scale-95 border border-emerald-400/20">
+                Close Panel
+            </button>
+        </div>
+    </div>
+
+    <!-- Script Engine -->
+    <script>
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6wLoB92RkkkAwO_IC6Bx-8Si5lYfpMpdtRo_e_9RB1DnceQ4aG-5_Cs9QWENrY_ZP9L7MF6psgGwD/pub?output=csv";
+        const RAMZAN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZ93s9o0iygZgHmzA0Z2JG7Wb_efFRi7AdifVoYjv3_nsNM_4OdvnUTyRzn9BdKskJzi43lCYDI4eW/pub?gid=0&single=true&output=csv";
+
+        function toggleModal(modalId, show) {
+            const modal = document.getElementById(modalId);
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        fetch(CSV_URL)
+            .then(res => res.text())
+            .then(data => {
+                const rows = data.split('\n');
+                const list = document.getElementById('monthly-list');
+                let totalB = 0, totalE = 0;
+                let htmlContent = "";
+
+                for(let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    if(!row.trim()) continue;
+                    
+                    const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
+                    if(cols[0]) {
+                        const b = parseFloat(cols[1]?.replace(/,/g, '')) || 0;
+                        const e = parseFloat(cols[2]?.replace(/,/g, '')) || 0;
+                        totalB += b;
+                        totalE += e;
+
+                        htmlContent += `
+                        <div class="dark-glass p-3.5 rounded-2xl shadow-sm border border-slate-800 flex justify-between items-center hover:border-emerald-500/50 transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-slate-900 border border-emerald-500/30 flex items-center justify-center text-xs font-bold font-mono text-emerald-400">
+                                    ${i.toString().padStart(2, '0')}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-200 text-xs">${cols[0]}</h4>
+                                    <span class="text-[9px] text-slate-500 font-mono">LOGGED</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-emerald-400 font-extrabold text-xs">+Rs. ${b.toLocaleString()}</p>
+                                <p class="text-rose-400 font-bold text-[10px] mt-0.5">-Rs. ${e.toLocaleString()}</p>
+                            </div>
+                        </div>`;
+                    }
+                }
+
+                list.innerHTML = htmlContent || "<p class='text-center text-xs text-slate-500'>No data found.</p>";
+                
+                const netSavings = totalB - totalE;
+                document.getElementById('total-balance').innerText = "Rs. " + totalB.toLocaleString();
+                document.getElementById('total-expenses').innerText = "Rs. " + totalE.toLocaleString();
+                document.getElementById('net-savings').innerText = "Rs. " + netSavings.toLocaleString();
+
+                const expPercentage = totalB > 0 ? Math.min(Math.round((totalE / totalB) * 100), 100) : 0;
+                document.getElementById('expense-percentage').innerText = expPercentage + "%";
+                document.getElementById('expense-progress-bar').style.width = expPercentage + "%";
+
+                if (netSavings < 0) {
+                    document.getElementById('savings-box').className = "dark-glass p-5 rounded-3xl shadow-xl border-2 border-rose-500";
+                    document.getElementById('expense-progress-bar').className = "h-full bg-rose-500";
+                }
+            })
+            .catch(err => {
+                document.getElementById('monthly-list').innerHTML = `<p class="text-center text-xs text-rose-500">Failed to load live data.</p>`;
+            });
+
+        fetch(RAMZAN_CSV_URL)
+            .then(res => res.text())
+            .then(data => {
+                const rows = data.split('\n');
+                let html = "";
+                for(let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    if(!row.trim()) continue;
+                    const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
+                    
+                    if(cols[0]) {
+                        let badgeStyle = 'text-emerald-300 border-emerald-500/30 bg-emerald-950/60';
+                        if (cols[0].toLowerCase().includes('balance')) badgeStyle = 'text-amber-300 border-amber-500/30 bg-amber-950/60';
+                        if (cols[0].toLowerCase().includes('expense') || cols[0].toLowerCase().includes('donate')) badgeStyle = 'text-rose-300 border-rose-500/30 bg-rose-950/60';
+
+                        html += `
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">${cols[0]}</p>
+                            </div>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-lg border ${badgeStyle}">
+                                ${cols[1] || '0'}
+                            </span>
+                        </div>`;
+                    }
+                }
+                document.getElementById('ramzan-content').innerHTML = html || "<p class='text-center text-slate-400'>No details recorded yet.</p>";
+            });
+    </script>
+</body>
+      </html>
+      
